@@ -1,36 +1,32 @@
-
-import Pokemon from "../pokemon/pokemon";
 import './pokemonList.css'
-import usePokemon from "../../hooks/usePokemon";
+import Pokemon from "../pokemon/pokemon";
+import usePokemonList from "../../hooks/usePokemonList";
+import { useEffect } from 'react';
 function PokemonList() {
-
-    //const [pokemonList,setPokemonList]=useState([]);
-    //const [isloading,setIsloading]=useState(true);
-    //const [pokedexUrl,setPokedexUrl]=useState('https://pokeapi.co/api/v2/pokemon');
-    //const [nextUrl,setnextUrl]=useState('');
-    //const [previousUrl,setpreviousUrl]=useState('');
-    const {pokemonState,setPokemonState}=usePokemon('https://pokeapi.co/api/v2/pokemon',true);
+    const [ pokemonListState, setPokemonListState] = usePokemonList(false);
+    useEffect(() => {
+        console.log("render")
+    })
     return (
-        <>
-            <div className="pokemon-list-wrapper">
-                <div className="pokemon-wrapper">
-                {(pokemonState.isloading) ?'  loading..':
-                    pokemonState.pokemonList.map((p)=><Pokemon name={p.name} image={p.image} id={p.id} />)
+        <div className="pokemon-list-wrapper">
+            <div className="pokemon-wrapper">
+                {(pokemonListState.isLoading) ? 'Loading....' : 
+                    pokemonListState.pokemonList.map((p) => <Pokemon name={p.name} image={p.image} key={p.id} id={p.id} />)
                 }
-                </div>
-                <div className="controls">
-                    <button disabled={pokemonState.previousUrl==null} onClick={()=>{
-                        const urlToset=pokemonState.previousUrl;
-                        setPokemonState({...pokemonState,pokedexUrl:urlToset});
-                    }}>Prev</button>
-                    <button disabled={pokemonState.nextUrl==null} onClick={()=>{
-                        const urltoset=pokemonState.nextUrl;
-                        setPokemonState({...pokemonState,pokedexUrl:urltoset});
-                    }}>Next</button>
-
-                </div>
             </div>
-        </>
-    );
+            <div className="controls">
+                <button disabled={pokemonListState.prevUrl == null} onClick={() => {
+                    const urlToSet = pokemonListState.prevUrl;
+                    setPokemonListState({ ...pokemonListState, pokedexUrl: urlToSet})
+                }}>Prev</button>
+                <button disabled={pokemonListState.nextUrl == null} onClick={() => {
+                    console.log(pokemonListState)
+                    const urlToSet = pokemonListState.nextUrl;
+                    setPokemonListState({ ...pokemonListState, pokedexUrl: urlToSet})
+                }}>Next</button>
+            </div>
+        </div>
+    )
 }
+
 export default PokemonList;
