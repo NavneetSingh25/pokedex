@@ -3,6 +3,7 @@ import './App.css'
 import Pokedex from './components/pokedex/pokedex'
 import PokemonDetails from './components/pokemonDetails/pokemonDetails'
 
+
 function App() {
   return (
       <Routes>
